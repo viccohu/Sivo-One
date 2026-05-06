@@ -273,10 +273,18 @@ public sealed partial class CollectPage : Page
             _rightClickedFolderNode = node;
             if (sender is TreeViewItem { Content: Grid grid })
             {
-                FlyoutBase.ShowAttachedFlyout(grid);
+                ShowAttachedFlyoutAtPointer(grid, e);
             }
             e.Handled = true;
         }
+    }
+
+    private static void ShowAttachedFlyoutAtPointer(FrameworkElement element, RightTappedRoutedEventArgs args)
+    {
+        FlyoutBase.GetAttachedFlyout(element)?.ShowAt(element, new FlyoutShowOptions
+        {
+            Position = args.GetPosition(element)
+        });
     }
 
     private void AddFolderToPreviewSource_Click(object sender, RoutedEventArgs e)
